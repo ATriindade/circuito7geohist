@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Circuito 2025.01 - Formulário</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #0b1a13 0%, #163325 100%);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .form-card {
+      background: #162c20;
+      border-radius: 22px;
+      box-shadow: 0 8px 32px #0a1a12, 0 1.5px 8px #1b3c2b66;
+      padding: 32px 28px 28px 28px;
+      max-width: 430px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      align-items: stretch;
+      border: 2.5px solid #1de982;
+      position: relative;
+      overflow: hidden;
+    }
+    .progress-bar-bg {
+      width: 100%;
+      height: 12px;
+      background: #0e1c14;
+      border-radius: 0 0 12px 12px;
+      margin-bottom: 0;
+      overflow: hidden;
+      box-shadow: 0 2px 8px #1de98233;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #1de982 0%, #43e97b 100%);
+      transition: width 0.4s cubic-bezier(.4,2.2,.2,1);
+      border-radius: 0 0 12px 12px;
+      box-shadow: 0 0 8px #1de98299;
+    }
+    #timer-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 18px 0 0 0;
+    }
+    #timer {
+      background: #0e1c14;
+      color: #1de982;
+      font-weight: 900;
+      font-size: 1.35rem;
+      border-radius: 8px;
+      padding: 10px 24px;
+      letter-spacing: 2px;
+      border: 2px solid #1de982;
+      box-shadow: 0 0 12px #1de98244;
+      font-family: 'Courier New', Courier, monospace;
+      text-shadow: 0 0 8px #1de98288;
+    }
+    .form-title {
+      font-size: 2.1rem;
+      color: #1de982;
+      font-weight: 900;
+      text-align: center;
+      margin: 24px 0 2px 0;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 8px #1de98255;
+    }
+    .form-desc {
+      text-align: center;
+      color: #b2dfdb;
+      font-size: 1.13rem;
+      margin-bottom: 10px;
+    }
+    .form-label {
+      font-weight: 600;
+      color: #1de982;
+      margin-bottom: 4px;
+      font-size: 1.13rem;
+      text-shadow: 0 1px 4px #1de98233;
+    }
+    .form-input {
+      padding: 12px;
+      border-radius: 8px;
+      border: 2px solid #1de982;
+      font-size: 1.08rem;
+      margin-bottom: 10px;
+      background: #0e1c14;
+      color: #fff;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 8px #1de98222;
+    }
+    .form-input:focus {
+      border-color: #43e97b;
+      outline: none;
+      background: #162c20;
+      box-shadow: 0 0 12px #1de98255;
+    }
+    .form-btn {
+      background: linear-gradient(90deg, #1de982 0%, #43e97b 100%);
+      color: #10281b;
+      border: none;
+      border-radius: 10px;
+      padding: 15px 0;
+      font-size: 1.18rem;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 
+        background 0.2s, 
+        transform 0.15s, 
+        box-shadow 0.2s,
+        filter 0.2s;
+      box-shadow: 0 0 16px #1de98255, 0 2px 8px #1de98222;
+      letter-spacing: 1px;
+      text-shadow: 0 1px 4px #fff8;
+    }
+    .form-btn:hover {
+      filter: brightness(1.15);
+      box-shadow: 0 0 32px #1de982cc, 0 2px 16px #1de98244;
+      transform: scale(1.04);
+    }
+    .btn-voltar {
+      background: transparent !important;
+      color: #1de982 !important;
+      border: 2px solid #1de982 !important;
+      box-shadow: none !important;
+      margin-top: 10px;
+      margin-bottom: 0;
+      font-weight: 700;
+      transition: 
+        background 0.2s, 
+        color 0.2s, 
+        border 0.2s, 
+        transform 0.15s, 
+        box-shadow 0.2s;
+    }
+    .btn-voltar:hover {
+      background: #0e1c14 !important;
+      color: #43e97b !important;
+      border-color: #43e97b !important;
+      box-shadow: 0 0 16px #1de98288;
+      transform: scale(1.04);
+    }
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .quiz-options input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .quiz-options label {
+      position: relative;
+      cursor: pointer;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 1.08rem;
+      transition: background 0.15s, color 0.15s, border 0.15s;
+      border: 2px solid transparent;
+      color: #b2dfdb;
+      background: #1b3c2b;
+      box-shadow: 0 0 4px #1de98222;
+    }
+    .quiz-options input[type="radio"]:focus + label,
+    .quiz-options label:hover {
+      background: #10281b;
+      border-color: #1de982;
+      color: #1de982;
+      box-shadow: 0 0 8px #1de98255;
+    }
+    .quiz-options input[type="radio"]:checked + label {
+      background: #10281b;
+      border: 2.5px solid #43e97b;
+      color: #1de982;
+      font-weight: bold;
+      box-shadow: 0 0 24px #1de982cc, 0 0 8px #1de98299 inset, 0 0 12px #1de98299;
+      transform: scale(1.04);
+      transition: box-shadow 0.2s, background 0.2s, color 0.2s, transform 0.2s, border 0.2s;
+      z-index: 1;
+    }
+    .quiz-options input[type="radio"]:checked + label::before {
+      background: #1de982;
+      border-color: #43e97b;
+      box-shadow: 0 0 8px #1de98299, 0 0 0 4px #1de98233;
+    }
+    #sending-loader, #resultado, #quiz-form {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+    }
+    #mensagem-resultado {
+      font-size: 1.3rem;
+      color: #1de982;
+      margin: 18px 0;
+      text-shadow: 0 1px 4px #1de98255;
+    }
+    .correcao {
+      margin-top: 18px;
+      background: #0e1c14;
+      border-radius: 10px;
+      padding: 10px 16px;
+      color: #b2dfdb;
+      font-size: 1.04rem;
+      border: 2px solid #1de982;
+      box-shadow: 0 0 8px #1de98233;
+    }
+    .step { display: none; flex-direction: column; gap: 12px; }
+    .step.active { display: flex; animation: fadeIn 0.5s;}
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    ul.regras {
+      text-align:left;
+      color:#b2dfdb;
+      font-size:1.04rem;
+      margin:0 0 10px 0;
+      padding-left:18px;
+    }
+    .botoes-etapa {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 8px;
+    }
+    .form-btn, .btn-voltar {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+    @media (max-width: 600px) {
+      .form-card {
+        padding: 8px 2vw 8px 2vw;
+        max-width: 99vw;
+      }
+      .form-title { font-size: 1.2rem; }
+      #timer { font-size: 1.05rem; padding: 7px 8px;}
+      .form-label, .form-desc { font-size: 1rem; }
+      .quiz-options label { font-size: 0.98rem; padding: 8px 8px; }
+      .botoes-etapa { flex-direction: column; gap: 6px; }
+      .form-btn, .btn-voltar { font-size: 1rem; padding: 12px 0; }
+      #mensagem-resultado { font-size: 1.05rem; }
+      .correcao { font-size: 0.97rem; padding: 8px 6px; }
+      #carrossel-correcao { flex-direction: column; gap: 8px; }
+    }
+    /* Impede seleção de texto em todo o corpo e elementos principais */
+    body, .form-card, .quiz-options label, .form-label, .form-title, .form-desc {
+      user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+    }
+    .loader {
+      border: 6px solid #1de98244;
+      border-top: 6px solid #1de982;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg);}
+      100% { transform: rotate(360deg);}
+    }
+    .correcao-seta {
+      background: #1de982;
+      color: #10281b;
+      border: none;
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 8px #1de98255;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.15s;
+      margin: 0 4px;
+    }
+    .correcao-seta:hover {
+      background: #43e97b;
+      transform: scale(1.12);
+    }
+    @media (max-width: 600px) {
+      .correcao-seta {
+        width: 32px;
+        height: 32px;
+        font-size: 1.15rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="page-loader" style="position:fixed;z-index:99999;top:0;left:0;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;background:#0b1a13;">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:18px;">
+      <div class="loader"></div>
+      <div style="color:#1de982;font-size:1.3rem;font-weight:bold;">Carregando...</div>
+    </div>
+  </div>
+
+  <div style="position:fixed;top:0;left:0;width:100vw;background:#1de982;color:#10281b;font-weight:bold;text-align:center;padding:8px 0;z-index:9999;box-shadow:0 2px 8px #1de98255;">
+    ⚠️ Não saia da página ou troque de aba! Isso encerrará sua avaliação.
+  </div>
+  <div class="form-card" id="inicio">
+    <div style="display:flex;justify-content:center;">
+      <span style="font-size:3.2rem; color:#1de982; filter:drop-shadow(0 0 8px #1de98288); margin-bottom:10px;">🎮</span>
+    </div>
+    <div class="form-title" style="font-size:2.5rem; margin-bottom:0;">Circuito 2025.01</div>
+    <div class="form-desc" style="font-size:1.18rem; margin-bottom:18px;">
+      <b>Bem-vindo ao desafio!</b><br>
+      <span style="color:#1de982;">História e Geografia</span><br>
+      <span style="color:#b2dfdb;">Responda todas as perguntas no tempo e tente bater o recorde!</span>
+    </div>
+    <div style="background:#0e1c14;border-radius:12px;padding:14px 18px;margin-bottom:18px;border:1.5px solid #1de982;">
+      <ul class="regras" style="margin:0;">
+        <li>Não saia da página durante o quiz.</li>
+        <li>Tempo limitado: <b>120 minutos</b>.</li>
+        <li>Fale com um professor em caso de dúvida.</li>
+      </ul>
+    </div>
+    <button class="form-btn" style="font-size:1.25rem;box-shadow:0 0 18px #1de98288;" onclick="comecar()">Começar!</button>
+  </div>
+
+  <form class="form-card" id="quiz-form" autocomplete="off">
+    <div class="progress-bar-bg">
+      <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+    </div>
+    <div id="timer-container">
+      <div id="timer">
+        ⏱ <span id="timer-count">120:00</span>
+      </div>
+    </div>
+    <div class="form-title">Circuito 2025.01</div>
+    <div class="form-desc">História e Geografia<br>Responda todas as perguntas e clique em Enviar!</div>
+
+    <!-- Etapa 1: Nome da equipe -->
+    <div class="step active">
+      <label class="form-label" for="nome">Nome da equipe</label>
+      <input class="form-input" type="text" id="nome" name="nome" required placeholder="Digite o nome da equipe">
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+
+    <!-- GEOGRAFIA -->
+    <div class="step">
+      <div class="form-label">1) Qual é a posição do Brasil em relação à extensão territorial mundial?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q1a" name="q1" value="Primeiro maior território" required>
+        <label for="q1a">a) Primeiro maior território</label>
+        <input type="radio" id="q1b" name="q1" value="Segundo maior território">
+        <label for="q1b">b) Segundo maior território</label>
+        <input type="radio" id="q1c" name="q1" value="Terceiro maior território">
+        <label for="q1c">c) Terceiro maior território</label>
+        <input type="radio" id="q1d" name="q1" value="Quinto maior território">
+        <label for="q1d">d) Quinto maior território</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">2) Em qual hemisfério está localizada a maior parte do território brasileiro?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q2a" name="q2" value="Hemisfério Norte" required>
+        <label for="q2a">a) Hemisfério Norte</label>
+        <input type="radio" id="q2b" name="q2" value="Hemisfério Sul">
+        <label for="q2b">b) Hemisfério Sul</label>
+        <input type="radio" id="q2c" name="q2" value="Hemisfério Oriental">
+        <label for="q2c">c) Hemisfério Oriental</label>
+        <input type="radio" id="q2d" name="q2" value="Hemisfério Ocidental">
+        <label for="q2d">d) Hemisfério Ocidental</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">3) Quantos fusos horários o Brasil possui devido à sua extensão no sentido leste-oeste?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q3a" name="q3" value="Dois" required>
+        <label for="q3a">a) Dois</label>
+        <input type="radio" id="q3b" name="q3" value="Três">
+        <label for="q3b">b) Três</label>
+        <input type="radio" id="q3c" name="q3" value="Quatro">
+        <label for="q3c">c) Quatro</label>
+        <input type="radio" id="q3d" name="q3" value="Cinco">
+        <label for="q3d">d) Cinco</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">4) Em qual continente está localizado o Brasil?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q4a" name="q4" value="América do Norte" required>
+        <label for="q4a">a) América do Norte</label>
+        <input type="radio" id="q4b" name="q4" value="América Central">
+        <label for="q4b">b) América Central</label>
+        <input type="radio" id="q4c" name="q4" value="América do Sul">
+        <label for="q4c">c) América do Sul</label>
+        <input type="radio" id="q4d" name="q4" value="África">
+        <label for="q4d">d) África</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">5) Qual característica geográfica do Brasil influencia diretamente sua diversidade natural?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q5a" name="q5" value="Sua localização no hemisfério sul" required>
+        <label for="q5a">a) Sua localização no hemisfério sul</label>
+        <input type="radio" id="q5b" name="q5" value="Sua proximidade com o Oceano Atlântico">
+        <label for="q5b">b) Sua proximidade com o Oceano Atlântico</label>
+        <input type="radio" id="q5c" name="q5" value="Sua grande extensão territorial">
+        <label for="q5c">c) Sua grande extensão territorial</label>
+        <input type="radio" id="q5d" name="q5" value="Sua distância da linha do Equador">
+        <label for="q5d">d) Sua distância da linha do Equador</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">6) De acordo com a Constituição brasileira, como é definida a forma de Estado do Brasil?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q6a" name="q6" value="Monarquia Federativa" required>
+        <label for="q6a">a) Monarquia Federativa</label>
+        <input type="radio" id="q6b" name="q6" value="República Unitária">
+        <label for="q6b">b) República Unitária</label>
+        <input type="radio" id="q6c" name="q6" value="República Federativa">
+        <label for="q6c">c) República Federativa</label>
+        <input type="radio" id="q6d" name="q6" value="Confederação">
+        <label for="q6d">d) Confederação</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">7) Qual é a principal diferença na estrutura política do Distrito Federal em relação aos estados?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q7a" name="q7" value="Não possui Poder Judiciário" required>
+        <label for="q7a">a) Não possui Poder Judiciário</label>
+        <input type="radio" id="q7b" name="q7" value="Não realiza eleições">
+        <label for="q7b">b) Não realiza eleições</label>
+        <input type="radio" id="q7c" name="q7" value="Não possui governador">
+        <label for="q7c">c) Não possui governador</label>
+        <input type="radio" id="q7d" name="q7" value="Não possui prefeito nem vereadores">
+        <label for="q7d">d) Não possui prefeito nem vereadores</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">8) Qual evento histórico marcou a transição das províncias para os estados no Brasil?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q8a" name="q8" value="Independência do Brasil" required>
+        <label for="q8a">a) Independência do Brasil</label>
+        <input type="radio" id="q8b" name="q8" value="Proclamação da República">
+        <label for="q8b">b) Proclamação da República</label>
+        <input type="radio" id="q8c" name="q8" value="Golpe da Maioridade">
+        <label for="q8c">c) Golpe da Maioridade</label>
+        <input type="radio" id="q8d" name="q8" value="Abolição da Escravatura">
+        <label for="q8d">d) Abolição da Escravatura</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">9) Qual foi a primeira divisão territorial do Brasil no período colonial?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q9a" name="q9" value="Províncias" required>
+        <label for="q9a">a) Províncias</label>
+        <input type="radio" id="q9b" name="q9" value="Capitanias Hereditárias">
+        <label for="q9b">b) Capitanias Hereditárias</label>
+        <input type="radio" id="q9c" name="q9" value="Estados">
+        <label for="q9c">c) Estados</label>
+        <input type="radio" id="q9d" name="q9" value="Comarcas">
+        <label for="q9d">d) Comarcas</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">10) Qual poder é responsável pela administração direta dos estados brasileiros?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q10a" name="q10" value="Poder Executivo" required>
+        <label for="q10a">a) Poder Executivo</label>
+        <input type="radio" id="q10b" name="q10" value="Poder Legislativo">
+        <label for="q10b">b) Poder Legislativo</label>
+        <input type="radio" id="q10c" name="q10" value="Poder Judiciário">
+        <label for="q10c">c) Poder Judiciário</label>
+        <input type="radio" id="q10d" name="q10" value="Poder Moderador">
+        <label for="q10d">d) Poder Moderador</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">11) Qual instituição é responsável pela realização do Censo no Brasil?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q11a" name="q11" value="IBAMA" required>
+        <label for="q11a">a) IBAMA</label>
+        <input type="radio" id="q11b" name="q11" value="IBGE">
+        <label for="q11b">b) IBGE</label>
+        <input type="radio" id="q11c" name="q11" value="INPE">
+        <label for="q11c">c) INPE</label>
+        <input type="radio" id="q11d" name="q11" value="IPEA">
+        <label for="q11d">d) IPEA</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">12) Qual dos povos abaixo NÃO é considerado um dos três principais grupos étnicos na formação inicial do povo brasileiro?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q12a" name="q12" value="Indígenas" required>
+        <label for="q12a">a) Indígenas</label>
+        <input type="radio" id="q12b" name="q12" value="Portugueses">
+        <label for="q12b">b) Portugueses</label>
+        <input type="radio" id="q12c" name="q12" value="Africanos">
+        <label for="q12c">c) Africanos</label>
+        <input type="radio" id="q12d" name="q12" value="Asiáticos">
+        <label for="q12d">d) Asiáticos</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">13) Qual termo é usado para descrever o processo de mistura entre diferentes grupos étnicos na formação do povo brasileiro?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q13a" name="q13" value="Aculturação" required>
+        <label for="q13a">a) Aculturação</label>
+        <input type="radio" id="q13b" name="q13" value="Assimilação">
+        <label for="q13b">b) Assimilação</label>
+        <input type="radio" id="q13c" name="q13" value="Segregação">
+        <label for="q13c">c) Segregação</label>
+        <input type="radio" id="q13d" name="q13" value="Miscigenação">
+        <label for="q13d">d) Miscigenação</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">14) Qual aspecto da identidade nacional brasileira é diretamente influenciado pela miscigenação de diferentes grupos étnicos?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q14a" name="q14" value="Uniformidade linguística" required>
+        <label for="q14a">a) Uniformidade linguística</label>
+        <input type="radio" id="q14b" name="q14" value="Homogeneidade cultural">
+        <label for="q14b">b) Homogeneidade cultural</label>
+        <input type="radio" id="q14c" name="q14" value="Diversidade cultural">
+        <label for="q14c">c) Diversidade cultural</label>
+        <input type="radio" id="q14d" name="q14" value="Isolamento regional">
+        <label for="q14d">d) Isolamento regional</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">15) Além dos portugueses, africanos e indígenas, quais outros grupos étnicos contribuíram significativamente para a formação do povo brasileiro em períodos posteriores?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q15a" name="q15" value="Russos, chineses e australianos" required>
+        <label for="q15a">a) Russos, chineses e australianos</label>
+        <input type="radio" id="q15b" name="q15" value="Italianos, alemães e japoneses">
+        <label for="q15b">b) Italianos, alemães e japoneses</label>
+        <input type="radio" id="q15c" name="q15" value="Indianos, paquistaneses e tailandeses">
+        <label for="q15c">c) Indianos, paquistaneses e tailandeses</label>
+        <input type="radio" id="q15d" name="q15" value="Canadenses, mexicanos e argentinos">
+        <label for="q15d">d) Canadenses, mexicanos e argentinos</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+
+    <!-- HISTÓRIA -->
+    <div class="step">
+      <div class="form-label">16) Qual movimento intelectual e cultural surgiu na Europa durante os séculos XIV a XVI, caracterizado pela valorização do ser humano e da razão?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q16a" name="q16" value="Iluminismo" required>
+        <label for="q16a">a) Iluminismo</label>
+        <input type="radio" id="q16b" name="q16" value="Romantismo">
+        <label for="q16b">b) Romantismo</label>
+        <input type="radio" id="q16c" name="q16" value="Renascimento">
+        <label for="q16c">c) Renascimento</label>
+        <input type="radio" id="q16d" name="q16" value="Barroco">
+        <label for="q16d">d) Barroco</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">17) Qual dos nomes abaixo é considerada um dos principais expoentes do Renascimento nas artes plásticas?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q17a" name="q17" value="William Shakespeare" required>
+        <label for="q17a">a) William Shakespeare</label>
+        <input type="radio" id="q17b" name="q17" value="Leonardo da Vinci">
+        <label for="q17b">b) Leonardo da Vinci</label>
+        <input type="radio" id="q17c" name="q17" value="Johann Sebastian Bach">
+        <label for="q17c">c) Johann Sebastian Bach</label>
+        <input type="radio" id="q17d" name="q17" value="Galileu Galilei">
+        <label for="q17d">d) Galileu Galilei</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">18) Qual movimento religioso do século XVI desafiou a autoridade da Igreja Católica e levou à formação de novas denominações cristãs?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q18a" name="q18" value="Cruzadas" required>
+        <label for="q18a">a) Cruzadas</label>
+        <input type="radio" id="q18b" name="q18" value="Inquisição">
+        <label for="q18b">b) Inquisição</label>
+        <input type="radio" id="q18c" name="q18" value="Contrarreforma">
+        <label for="q18c">c) Contrarreforma</label>
+        <input type="radio" id="q18d" name="q18" value="Reforma Protestante">
+        <label for="q18d">d) Reforma Protestante</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">19) Qual foi a resposta da Igreja Católica ao movimento da Reforma Protestante?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q19a" name="q19" value="Renascimento" required>
+        <label for="q19a">a) Renascimento</label>
+        <input type="radio" id="q19b" name="q19" value="Iluminismo">
+        <label for="q19b">b) Iluminismo</label>
+        <input type="radio" id="q19c" name="q19" value="Contrarreforma">
+        <label for="q19c">c) Contrarreforma</label>
+        <input type="radio" id="q19d" name="q19" value="Revolução Científica">
+        <label for="q19d">d) Revolução Científica</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">20) Qual foi o principal fator que contribuiu para o crescimento populacional na Europa a partir do século VIII?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q20a" name="q20" value="Aumento das guerras" required>
+        <label for="q20a">a) Aumento das guerras</label>
+        <input type="radio" id="q20b" name="q20" value="Redução da mortalidade">
+        <label for="q20b">b) Redução da mortalidade</label>
+        <input type="radio" id="q20c" name="q20" value="Diminuição das áreas cultiváveis">
+        <label for="q20c">c) Diminuição das áreas cultiváveis</label>
+        <input type="radio" id="q20d" name="q20" value="Aumento das epidemias">
+        <label for="q20d">d) Aumento das epidemias</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">21) Qual cidade era considerada o principal ponto de encontro entre comerciantes árabes e europeus durante o Renascimento comercial?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q21a" name="q21" value="Roma" required>
+        <label for="q21a">a) Roma</label>
+        <input type="radio" id="q21b" name="q21" value="Veneza">
+        <label for="q21b">b) Veneza</label>
+        <input type="radio" id="q21c" name="q21" value="Constantinopla">
+        <label for="q21c">c) Constantinopla</label>
+        <input type="radio" id="q21d" name="q21" value="Alexandria">
+        <label for="q21d">d) Alexandria</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">22) Qual dos seguintes produtos NÃO era comumente comercializado pelos árabes durante o Renascimento comercial?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q22a" name="q22" value="Especiarias da Índia" required>
+        <label for="q22a">a) Especiarias da Índia</label>
+        <input type="radio" id="q22b" name="q22" value="Seda da China">
+        <label for="q22b">b) Seda da China</label>
+        <input type="radio" id="q22c" name="q22" value="Porcelana da China">
+        <label for="q22c">c) Porcelana da China</label>
+        <input type="radio" id="q22d" name="q22" value="Café do Brasil">
+        <label for="q22d">d) Café do Brasil</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">23) Qual termo é usado para se referir ao processo de revitalização do comércio e do espaço urbano na Europa ocidental durante a Baixa Idade Média?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q23a" name="q23" value="Revolução Industrial" required>
+        <label for="q23a">a) Revolução Industrial</label>
+        <input type="radio" id="q23b" name="q23" value="Renascimento Cultural">
+        <label for="q23b">b) Renascimento Cultural</label>
+        <input type="radio" id="q23c" name="q23" value="Reforma Protestante">
+        <label for="q23c">c) Reforma Protestante</label>
+        <input type="radio" id="q23d" name="q23" value="Renascimento comercial e urbano">
+        <label for="q23d">d) Renascimento comercial e urbano</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">24) Qual evento histórico consolidou os critérios e conhecimentos desenvolvidos durante o Renascimento comercial e urbano?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q24a" name="q24" value="As Cruzadas" required>
+        <label for="q24a">a) As Cruzadas</label>
+        <input type="radio" id="q24b" name="q24" value="A Guerra dos Cem Anos">
+        <label for="q24b">b) A Guerra dos Cem Anos</label>
+        <input type="radio" id="q24c" name="q24" value="As Grandes Navegações">
+        <label for="q24c">c) As Grandes Navegações</label>
+        <input type="radio" id="q24d" name="q24" value="A Reforma Protestante">
+        <label for="q24d">d) A Reforma Protestante</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">25) Qual era a crença de Colombo em relação ao local onde havia chegado em suas viagens?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q25a" name="q25" value="Acreditava ter chegado à América" required>
+        <label for="q25a">a) Acreditava ter chegado à América</label>
+        <input type="radio" id="q25b" name="q25" value="Pensava ter alcançado o Japão">
+        <label for="q25b">b) Pensava ter alcançado o Japão</label>
+        <input type="radio" id="q25c" name="q25" value="Estava certo de ter descoberto a Austrália">
+        <label for="q25c">c) Estava certo de ter descoberto a Austrália</label>
+        <input type="radio" id="q25d" name="q25" value="Acreditava ter chegado à Índia">
+        <label for="q25d">d) Acreditava ter chegado à Índia</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">26) Qual era a capital do Império Asteca?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q26a" name="q26" value="Cuzco" required>
+        <label for="q26a">a) Cuzco</label>
+        <input type="radio" id="q26b" name="q26" value="Tenochtitlán">
+        <label for="q26b">b) Tenochtitlán</label>
+        <input type="radio" id="q26c" name="q26" value="Tikal">
+        <label for="q26c">c) Tikal</label>
+        <input type="radio" id="q26d" name="q26" value="Machu Picchu">
+        <label for="q26d">d) Machu Picchu</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">27) Qual grupo social foi particularmente afetado durante a Primeira Cruzada?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q27a" name="q27" value="A nobreza" required>
+        <label for="q27a">a) A nobreza</label>
+        <input type="radio" id="q27b" name="q27" value="O clero">
+        <label for="q27b">b) O clero</label>
+        <input type="radio" id="q27c" name="q27" value="Os comerciantes">
+        <label for="q27c">c) Os comerciantes</label>
+        <input type="radio" id="q27d" name="q27" value="As classes mais pobres">
+        <label for="q27d">d) As classes mais pobres</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">28) Em que ano os franceses finalmente conquistaram o domínio sobre seu território, vencendo a Guerra dos Cem Anos?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q28a" name="q28" value="1415" required>
+        <label for="q28a">a) 1415</label>
+        <input type="radio" id="q28b" name="q28" value="1429">
+        <label for="q28b">b) 1429</label>
+        <input type="radio" id="q28c" name="q28" value="1437">
+        <label for="q28c">c) 1437</label>
+        <input type="radio" id="q28d" name="q28" value="1453">
+        <label for="q28d">d) 1453</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="button" class="form-btn" onclick="nextStep()">Próxima</button>
+      </div>
+    </div>
+    <div class="step">
+      <div class="form-label">29) Qual era o reino mais rico, maior e mais populoso da Europa Ocidental durante a Guerra dos Cem Anos?</div>
+      <div class="quiz-options">
+        <input type="radio" id="q29a" name="q29" value="França" required>
+        <label for="q29a">a) França</label>
+        <input type="radio" id="q29b" name="q29" value="Espanha">
+        <label for="q29b">b) Espanha</label>
+        <input type="radio" id="q29c" name="q29" value="Sacro Império Romano-Germânico">
+        <label for="q29c">c) Sacro Império Romano-Germânico</label>
+        <input type="radio" id="q29d" name="q29" value="Portugal">
+        <label for="q29d">d) Portugal</label>
+      </div>
+      <div class="botoes-etapa">
+        <button type="button" class="form-btn btn-voltar" onclick="prevStep()">Voltar</button>
+        <button type="submit" class="form-btn" id="enviar-btn">Enviar</button>
+      </div>
+    </div>
+  </form>
+
+  <div id="sending-loader" class="form-card" style="display:none;align-items:center;justify-content:center;min-height:220px;">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:18px;">
+      <div class="loader"></div>
+      <div style="font-size:2rem;color:#1de982;font-weight:bold;text-shadow:0 2px 8px #1de98255;">Enviando respostas...</div>
+      <div style="color:#b2dfdb;font-size:1.1rem;">Por favor, aguarde.</div>
+    </div>
+  </div>
+
+  <div id="resultado" class="form-card" style="display:none; flex-direction:column; align-items:center;">
+    <div class="form-title">Resultado</div>
+    <div id="mensagem-resultado" style="font-size:1.3rem; color:#1de982; margin:18px 0;"></div>
+    <details id="spoiler-correcao" style="width:100%;margin-top:18px;">
+      <summary style="cursor:pointer;font-size:1.1rem;color:#1de982;">Clique para ver a correção das questões</summary>
+      <div style="display:flex;align-items:center;justify-content:center;gap:12px;">
+        <button id="prev-correcao" class="correcao-seta" style="display:none;" aria-label="Anterior">&lt;</button>
+        <div id="correcao" class="correcao"></div>
+        <button id="next-correcao" class="correcao-seta" style="display:none;" aria-label="Próximo">&gt;</button>
+      </div>
+    </details>
+    <div id="pontuacao-geral" style="font-size:1.2rem; color:#1de982; margin:18px 0;"></div>
+  </div>
+
+  <div class="form-card" id="aviso-transicao" style="display:none;align-items:center;justify-content:center;">
+    <div id="texto-transicao" style="font-size:1.25rem;color:#1de982;text-align:center;">
+      <!-- O texto será preenchido via JS -->
+    </div>
+    <button class="form-btn" style="margin-top:18px;" onclick="continuarTransicao()">Continuar</button>
+  </div>
+
+  <script>
+    // Gabarito para correção
+    const gabarito = [
+      // Geografia
+      "Quinto maior território", // q1
+      "Hemisfério Sul",         // q2
+      "Quatro",                 // q3
+      "América do Sul",         // q4
+      "Sua grande extensão territorial", // q5
+      "República Federativa",   // q6
+      "Não possui prefeito nem vereadores", // q7
+      "Proclamação da República", // q8
+      "Capitanias Hereditárias", // q9
+      "Poder Executivo",        // q10
+      "IBGE",                   // q11
+      "Asiáticos",              // q12
+      "Miscigenação",           // q13
+      "Diversidade cultural",   // q14
+      "Italianos, alemães e japoneses", // q15
+
+      // História
+      "Renascimento",           // q16
+      "Leonardo da Vinci",      // q17
+      "Reforma Protestante",    // q18
+      "Contrarreforma",         // q19
+      "Redução da mortalidade", // q20
+      "Constantinopla",         // q21
+      "Café do Brasil",         // q22
+      "Renascimento comercial e urbano", // q23
+      "As Grandes Navegações",  // q24
+      "Acreditava ter chegado à Índia", // q25
+      "Tenochtitlán",           // q26
+      "As classes mais pobres", // q27
+      "1453",                   // q28
+      "França"                  // q29
+    ];
+
+    const nomesQuestoes = [
+      "q1","q2","q3","q4","q5","q6","q7","q8","q9","q10","q11","q12","q13","q14","q15",
+      "q16","q17","q18","q19","q20","q21","q22","q23","q24","q25","q26","q27","q28","q29"
+    ];
+
+    const textosQuestoes = [
+      // Geografia
+      "1) Qual é a posição do Brasil em relação à extensão territorial mundial?",
+      "2) Em qual hemisfério está localizada a maior parte do território brasileiro?",
+      "3) Quantos fusos horários o Brasil possui devido à sua extensão no sentido leste-oeste?",
+      "4) Em qual continente está localizado o Brasil?",
+      "5) Qual característica geográfica do Brasil influencia diretamente sua diversidade natural?",
+      "6) De acordo com a Constituição brasileira, como é definida a forma de Estado do Brasil?",
+      "7) Qual é a principal diferença na estrutura política do Distrito Federal em relação aos estados?",
+      "8) Qual evento histórico marcou a transição das províncias para os estados no Brasil?",
+      "9) Qual foi a primeira divisão territorial do Brasil no período colonial?",
+      "10) Qual poder é responsável pela administração direta dos estados brasileiros?",
+      "11) Qual instituição é responsável pela realização do Censo no Brasil?",
+      "12) Qual dos povos abaixo NÃO é considerado um dos três principais grupos étnicos na formação inicial do povo brasileiro?",
+      "13) Qual termo é usado para descrever o processo de mistura entre diferentes grupos étnicos na formação do povo brasileiro?",
+      "14) Qual aspecto da identidade nacional brasileira é diretamente influenciado pela miscigenação de diferentes grupos étnicos?",
+      "15) Além dos portugueses, africanos e indígenas, quais outros grupos étnicos contribuíram significativamente para a formação do povo brasileiro em períodos posteriores?",
+      // História
+      "16) Qual movimento intelectual e cultural surgiu na Europa durante os séculos XIV a XVI, caracterizado pela valorização do ser humano e da razão?",
+      "17) Qual dos nomes abaixo é considerada um dos principais expoentes do Renascimento nas artes plásticas?",
+      "18) Qual movimento religioso do século XVI desafiou a autoridade da Igreja Católica e levou à formação de novas denominações cristãs?",
+      "19) Qual foi a resposta da Igreja Católica ao movimento da Reforma Protestante?",
+      "20) Qual foi o principal fator que contribuiu para o crescimento populacional na Europa a partir do século VIII?",
+      "21) Qual cidade era considerada o principal ponto de encontro entre comerciantes árabes e europeus durante o Renascimento comercial?",
+      "22) Qual dos seguintes produtos NÃO era comumente comercializado pelos árabes durante o Renascimento comercial?",
+      "23) Qual termo é usado para se referir ao processo de revitalização do comércio e do espaço urbano na Europa ocidental durante a Baixa Idade Média?",
+      "24) Qual evento histórico consolidou os critérios e conhecimentos desenvolvidos durante o Renascimento comercial e urbano?",
+      "25) Qual era a crença de Colombo em relação ao local onde havia chegado em suas viagens?",
+      "26) Qual era a capital do Império Asteca?",
+      "27) Qual grupo social foi particularmente afetado durante a Primeira Cruzada?",
+      "28) Em que ano os franceses finalmente conquistaram o domínio sobre seu território, vencendo a Guerra dos Cem Anos?",
+      "29) Qual era o reino mais rico, maior e mais populoso da Europa Ocidental durante a Guerra dos Cem Anos?"
+    ];
+
+    let tempo = 7200; // 2 horas
+    let timerInterval;
+    let enviado = false;
+
+    // Variáveis globais para correção/carrossel
+    let correcaoPaginas = [];
+    let paginaAtual = 0;
+
+    // Wizard de etapas
+    let currentStep = 0;
+    const steps = document.querySelectorAll('.step');
+    const progressBar = document.getElementById('progress-bar');
+    function updateProgressBar() {
+      const total = steps.length;
+      const percent = Math.round((currentStep) / (total - 1) * 100);
+      progressBar.style.width = percent + "%";
+    }
+    function nextStep() {
+      // Validação dos campos obrigatórios da etapa atual
+      const inputs = steps[currentStep].querySelectorAll('input, select');
+      for (let input of inputs) {
+        if (input.type === "radio") {
+          const radios = steps[currentStep].querySelectorAll(`input[name="${input.name}"]`);
+          if (![...radios].some(r => r.checked)) {
+            alert('Selecione uma alternativa!');
+            return;
+          }
+        } else if (!input.checkValidity()) {
+          input.reportValidity();
+          return;
+        }
+      }
+      steps[currentStep].classList.remove('active');
+      currentStep++;
+      // Aviso após o nome da equipe (etapa 1, índice 1)
+      if (currentStep === 1) {
+        mostrarTransicao(`
+          <span style="font-size:2.2rem;display:block;margin-bottom:10px;">🌎🧭</span>
+          <b>Agora começam as 15 perguntas de Geografia!</b>
+          <br><br>
+          Responda com atenção.<br>
+          Boa sorte! 🍀
+        `);
+        return;
+      }
+      // Aviso ao chegar na questão 16 (índice 16)
+      if (currentStep === 16) {
+        mostrarTransicao(`
+          <span style="font-size:2.2rem;display:block;margin-bottom:10px;">📜🏛️</span>
+          <b>Agora começam as 14 perguntas de História!</b>
+          <br><br>
+          Continue focado.<br>
+          Você está indo muito bem! 🚀
+        `);
+        return;
+      }
+      if (steps[currentStep]) {
+        steps[currentStep].classList.add('active');
+        updateProgressBar();
+      }
+    }
+    function prevStep() {
+      if (currentStep > 0) {
+        steps[currentStep].classList.remove('active');
+        currentStep--;
+        steps[currentStep].classList.add('active');
+        updateProgressBar();
+      }
+    }
+
+    function comecar() {
+      document.getElementById('inicio').style.display = 'none';
+      document.getElementById('quiz-form').style.display = 'flex';
+      document.getElementById('timer-container').style.display = 'flex';
+      updateProgressBar();
+      iniciarTimer();
+      window.addEventListener('blur', autoEnviar);
+    }
+
+    function iniciarTimer() {
+      const timerCount = document.getElementById('timer-count');
+      timerInterval = setInterval(() => {
+        if (tempo <= 0) {
+          clearInterval(timerInterval);
+          autoEnviar();
+          timerCount.textContent = "Tempo esgotado!";
+          return;
+        }
+        let min = Math.floor(tempo / 60);
+        let seg = tempo % 60;
+        timerCount.textContent = `${min}:${String(seg).padStart(2, '0')}`;
+        tempo--;
+      }, 1000);
+    }
+
+    function autoEnviar() {
+      if (!enviado) {
+        enviado = true;
+        document.getElementById('quiz-form').requestSubmit();
+      }
+    }
+
+    // Envio do formulário
+    const form = document.getElementById('quiz-form');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      enviado = true;
+      clearInterval(timerInterval);
+      window.removeEventListener('blur', autoEnviar);
+
+      form.style.display = 'none';
+      document.getElementById('timer-container').style.display = 'none';
+      document.getElementById('sending-loader').style.display = 'flex';
+
+      // Corrigir e mostrar resultado
+      let acertos = 0;
+      correcaoPaginas = [];
+      paginaAtual = 0;
+      for (let i = 0; i < gabarito.length; i += 5) {
+        let bloco = '';
+        for (let j = i; j < i + 5 && j < gabarito.length; j++) {
+          const marcada = form.querySelector(`input[name="${nomesQuestoes[j]}"]:checked`);
+          const resposta = marcada ? marcada.value : '';
+          if (resposta === gabarito[j]) {
+            bloco += `<b>${textosQuestoes[j]}</b><br><span style="color:#1de982">✔ Correto!</span><br><br>`;
+            acertos++;
+          } else {
+            bloco += `<b>${textosQuestoes[j]}</b><br>
+              <span style="color:#ff5252">✘ Sua resposta: ${resposta || '<i>Não respondida</i>'}</span><br>
+              <span style="color:#1de982">✔ Correto: ${gabarito[j]}</span><br><br>`;
+          }
+        }
+        correcaoPaginas.push(bloco);
+      }
+
+      // Monta os dados do formulário
+      const formData = new FormData(form);
+
+      // Envia para o Apps Script
+      fetch('https://script.google.com/macros/s/AKfycbz3IJ0siEc3Erwm8DYZ1tBa2iDk_tLFigAe5MbRtqmfmmgqhYp4DqyXrsMY3OQbFPwQtQ/exec', {
+        method: "POST",
+        body: formData
+      })
+      .finally(() => {
+        document.getElementById('sending-loader').style.display = 'none';
+        document.getElementById('resultado').style.display = 'flex';
+        document.getElementById('mensagem-resultado').innerHTML =
+          `Você acertou <b>${acertos}</b> de <b>${gabarito.length}</b> perguntas!<br><span style="color:#1de982">Respostas enviadas com sucesso!</span>`;
+        mostrarPaginaCorrecao(0); // Mostra a primeira página da correção
+        document.getElementById('pontuacao-geral').innerHTML =
+          `<b>Respondeu: ${acertos} de ${gabarito.length} perguntas</b>`;
+      });
+    });
+
+    function mostrarPaginaCorrecao(idx) {
+      document.getElementById('correcao').innerHTML = correcaoPaginas[idx];
+      document.getElementById('prev-correcao').style.display = idx > 0 ? '' : 'none';
+      document.getElementById('next-correcao').style.display = idx < correcaoPaginas.length - 1 ? '' : 'none';
+    }
+    document.getElementById('prev-correcao').onclick = () => {
+      if (paginaAtual > 0) {
+        paginaAtual--;
+        mostrarPaginaCorrecao(paginaAtual);
+      }
+    };
+    document.getElementById('next-correcao').onclick = () => {
+      if (paginaAtual < correcaoPaginas.length - 1) {
+        paginaAtual++;
+        mostrarPaginaCorrecao(paginaAtual);
+      }
+    };
+    // Mostrar a primeira página ao abrir o spoiler
+    document.getElementById('spoiler-correcao').addEventListener('toggle', function() {
+      if (this.open) mostrarPaginaCorrecao(0);
+    });
+
+    let aguardandoTransicao = false;
+
+    function mostrarTransicao(texto) {
+      document.getElementById('quiz-form').style.display = 'none';
+      document.getElementById('aviso-transicao').style.display = 'flex';
+      document.getElementById('texto-transicao').innerHTML = texto;
+      aguardandoTransicao = true;
+    }
+
+    function continuarTransicao() {
+      document.getElementById('aviso-transicao').style.display = 'none';
+      document.getElementById('quiz-form').style.display = 'flex';
+      aguardandoTransicao = false;
+      steps[currentStep].classList.add('active');
+      updateProgressBar();
+    }
+
+    // Adicione no início do quiz
+    window.onbeforeunload = function(e) {
+      if (!enviado) {
+        e.preventDefault();
+        e.returnValue = 'Se você sair, suas respostas serão enviadas e não poderá voltar!';
+        return e.returnValue;
+      }
+    };
+
+    // Após o envio do formulário, remova o alerta
+    form.addEventListener('submit', function(e) {
+      enviado = true;
+      window.onbeforeunload = null;
+    });
+
+    // Tenta enviar automaticamente ao sair (não é garantido)
+    window.addEventListener('beforeunload', function (e) {
+      if (!enviado) {
+        document.getElementById('quiz-form').requestSubmit();
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    });
+
+    // Bloqueia botão direito
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+    });
+
+    // Bloqueia teclas de atalho comuns
+    document.addEventListener('keydown', function(e) {
+      if (
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "i") ||
+        (e.ctrlKey && e.key.toLowerCase() === "u") ||
+        (e.ctrlKey && e.key.toLowerCase() === "c") ||
+        (e.ctrlKey && e.key.toLowerCase() === "v") ||
+        (e.ctrlKey && e.key.toLowerCase() === "s") ||
+        (e.ctrlKey && e.key.toLowerCase() === "p")
+      ) {
+        e.preventDefault();
+      }
+    });
+
+    // Loader de abertura
+    window.addEventListener('load', function() {
+      document.getElementById('page-loader').style.display = 'none';
+    });
+  </script>
+</body>
+</html>
